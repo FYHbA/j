@@ -12,11 +12,11 @@
 int main()
 {
     zhan*a,*b;
-    creatzhan(&a);
-    creatzhan(&b);
     printf("欢迎是用简易加减乘除计算器，请输入表达式： \n");
   while(1)
     {
+        creatzhan(&a);
+        creatzhan(&b);
         stackelem *input=readline(BEGIN(49,23)"interaction>");
         if(isdigit(input[0]))
         {
@@ -50,8 +50,8 @@ int main()
             continue;
         }
         add_history(input);
+        free_all(&a);
+        free_all(&b);
     }
-    free_all(&a);
-    free_all(&b);
     return 0;
 }
