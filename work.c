@@ -11,6 +11,7 @@
 #define BEGIN(x,y) "\001\033["#x";"#y"m\002"    // x: 背景，y: 前景
 int main()
 {
+    char op[]={'+','-','*','/','(',')'};
     zhan*a,*b;
     printf("欢迎是用简易加减乘除计算器，请输入表达式： \n");
   while(1)
@@ -18,7 +19,7 @@ int main()
         creatzhan(&a);
         creatzhan(&b);
         stackelem *input=readline(BEGIN(49,23)"interaction>");
-        if(isdigit(input[0]))
+        if(isdigit(input[0])||strchr(op,input[0]))
         {
             int c=change(input,&a,&b);
             if(c==1)
@@ -46,7 +47,7 @@ int main()
         }
         else
         {
-            printf("result>error");
+            printf("result>error\n");
             continue;
         }
         add_history(input);

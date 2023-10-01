@@ -103,6 +103,11 @@ status calculate(zhan**a)//后缀计算函数
         }
         else if(*p=='+')
         { 
+            if(s==0||s==-1)
+            {
+                printf("result>error\n");
+                return ERROR;
+            }
             num2=k[s];
             s--;
             num1=k[s];
@@ -110,6 +115,11 @@ status calculate(zhan**a)//后缀计算函数
         }
         else if(*p=='-')
         {
+            if(s==0||s==-1)
+            {
+                printf("result>error\n");
+                return ERROR;
+            }
             num2=k[s];
             s--;
             num1=k[s];
@@ -117,6 +127,11 @@ status calculate(zhan**a)//后缀计算函数
         }
         else if(*p=='*')
         {
+            if(s==0||s==-1)
+            {
+                printf("result>error\n");
+                return ERROR;
+            }
             num2=k[s];
             s--;
             num1=k[s];
@@ -124,6 +139,11 @@ status calculate(zhan**a)//后缀计算函数
         }
         else if(*p=='/')
         {
+            if(s==0||s==-1)
+            {
+                printf("result>error\n");
+                return ERROR;
+            }
             num2=k[s];
             s--;
             num1=k[s];
