@@ -8,7 +8,7 @@
 #include"ku.h"
 #define CLOSE "\001\033[0m\002"                 // 关闭所有属性
 #define BLOD  "\001\033[1m\002"                 // 强调、加粗、高亮
-#define BEGIN(x,y) "\001\033["#x";"#y"m\002"    // x: 背景，y: 前景
+#define BEGIN(x,y) "\001\033["#x";"#y"m\002"  // x: 背景，y: 前景
 int main()
 {
     char op[]={'+','-','*','/','(',')'};
@@ -18,18 +18,18 @@ int main()
     {
         creatzhan(&a);
         creatzhan(&b);
-        stackelem *input=readline(BEGIN(49,23)"interaction>");
+        stackelem *input=readline(BEGIN(49,34)"interaction>"CLOSE);
         if(isdigit(input[0])||strchr(op,input[0]))
         {
             int c=change(input,&a,&b);
             if(c==1)
             {
-                break;
+                continue;
             }
             calculate(&a);
             if(c==1)
             {
-                break;
+                continue;
             }
         }
         else if(*input=='?'||input=="help"||*input=='h')

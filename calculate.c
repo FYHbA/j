@@ -6,6 +6,7 @@
 #include"ku.h"
 status change(stackelem c[],zhan**a,zhan**b)//中缀转后缀表达式
 {
+    FILE*write=fopen("result.txt","a+");
     stackelem*j=NULL;
     j=malloc(1);
     char op[]={'+','-','*','/'};
@@ -66,13 +67,13 @@ status change(stackelem c[],zhan**a,zhan**b)//中缀转后缀表达式
         }
         else if(c[i]==' ')
         {
-            printf("result>warm\n");
             continue;
         }
         
         else
         {
             printf("result>表达式有错误\n");
+            fprintf(write,"%s\n","表达式有错误");
             return ERROR;
         }
     }
@@ -106,6 +107,7 @@ status calculate(zhan**a)//后缀计算函数
             if(s==0||s==-1)
             {
                 printf("result>error\n");
+                 fprintf(write,"%s\n","error");
                 return ERROR;
             }
             num2=k[s];
@@ -118,6 +120,7 @@ status calculate(zhan**a)//后缀计算函数
             if(s==0||s==-1)
             {
                 printf("result>error\n");
+                 fprintf(write,"%s\n","error");
                 return ERROR;
             }
             num2=k[s];
@@ -130,6 +133,7 @@ status calculate(zhan**a)//后缀计算函数
             if(s==0||s==-1)
             {
                 printf("result>error\n");
+                 fprintf(write,"%s\n","error");
                 return ERROR;
             }
             num2=k[s];
@@ -142,6 +146,7 @@ status calculate(zhan**a)//后缀计算函数
             if(s==0||s==-1)
             {
                 printf("result>error\n");
+                fprintf(write,"%s\n","error");
                 return ERROR;
             }
             num2=k[s];
@@ -150,14 +155,16 @@ status calculate(zhan**a)//后缀计算函数
             if(num2==0)
             {
                 printf("result>错误，除数不能为0\n");
+                fprintf(write,"%s\n","错误，除数不能为0");
                 return ERROR;
             }
             else
-            k[s]=num1/num2;
+            k[s]=(double)num1/num2;
         }
         p=strtok(NULL," ");
     }
     printf("result> %lf\n",k[0]);
     fprintf(write,"%lf\n",k[0]);
+    fclose(write);
     return OK;
 }
