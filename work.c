@@ -11,6 +11,7 @@
 #define BEGIN(x,y) "\001\033["#x";"#y"m\002"  // x: 背景，y: 前景
 int main()
 {
+    read_history(NULL);
     char op[]={'+','-','*','/','(',')'};
     zhan*a,*b;
     printf("欢迎是用简易加减乘除计算器，请输入表达式： \n");
@@ -51,6 +52,7 @@ int main()
             continue;
         }
         add_history(input);
+        write_history(NULL);
         free_all(&a);
         free_all(&b);
     }
