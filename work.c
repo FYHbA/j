@@ -15,7 +15,7 @@ int main()
     char op[]={'+','-','*','/','(',')'};
     zhan*a,*b;
     printf("欢迎是用简易加减乘除计算器，请输入表达式： \n");
-  while(1)
+    while(1)
     {
         creatzhan(&a);
         creatzhan(&b);
@@ -25,13 +25,12 @@ int main()
             int c=change(input,&a,&b);
             if(c==1)
             {
+                free_all(&a);
+                free_all(&b);
+                free(input);
                 continue;
             }
             calculate(&a);
-            if(c==1)
-            {
-                continue;
-            }
         }
         else if(*input=='?'||input=="help"||*input=='h')
         {
@@ -44,10 +43,16 @@ int main()
         }
         else if(strcmp(input,"quit")==0||*input=='q')
         {
+            free_all(&a);
+            free_all(&b);
+            free(input);
             break;
         }
         else
         {
+            free_all(&a);
+            free_all(&b);
+            free(input);
             printf("result>error\n");
             continue;
         }
@@ -55,6 +60,7 @@ int main()
         write_history(NULL);
         free_all(&a);
         free_all(&b);
+        free(input);
     }
     return 0;
 }

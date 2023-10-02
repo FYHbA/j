@@ -7,7 +7,7 @@
 status creatzhan(zhan **stack)
 {
     *stack=(zhan*)malloc(sizeof(zhan));
-    (*stack)->base=(stackelem*)malloc(sizeof(stackelem)*30);
+    (*stack)->base=(stackelem*)malloc(sizeof(stackelem)*300);
     (*stack)->top=(*stack)->base;
     if (!(*stack)->base)
     {

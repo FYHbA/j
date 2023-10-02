@@ -54,6 +54,20 @@ status change(stackelem c[],zhan**a,zhan**b)//中缀转后缀表达式
         {
             *j=c[i];
             push(b,&j);
+            if(c[i+1]=='-')
+            {
+                i++;
+                *j=c[i];
+                push(a,&j);
+                while(isdigit(c[i+1])||c[i+1]=='.')
+                {
+                    *j=c[i+1];
+                    push(a,&j);
+                    i++;
+                }
+                (*a)->top++;
+                (*a)->top[0]=' ';
+            }
         }
         else if(c[i]==')')
         {
@@ -73,8 +87,9 @@ status change(stackelem c[],zhan**a,zhan**b)//中缀转后缀表达式
         
         else
         {
-            printf("result>表达式有错误\n");
-            fprintf(write,"%s\n","表达式有错误");
+            printf("result>表达式有误\n");
+            fprintf(write,"%s\n","表达式有误");
+            fclose(write);
             return ERROR;
         }
     }
@@ -87,6 +102,7 @@ status change(stackelem c[],zhan**a,zhan**b)//中缀转后缀表达式
     }
     free(j);
     j=NULL;
+    fclose(write);
     return OK;
 }
 status calculate(zhan**a)//后缀计算函数
@@ -98,7 +114,7 @@ status calculate(zhan**a)//后缀计算函数
     char*p=strtok((*a)->base," ");
     while(p!=NULL)
     {
-        if(isdigit(p[0]))
+        if(isdigit(p[0])||isdigit(p[1]))
         {
             s++;
             k[s]=atof(p);
@@ -108,7 +124,8 @@ status calculate(zhan**a)//后缀计算函数
             if(s==-1)
             {
                 printf("result>表达式有误\n");
-                 fprintf(write,"%s\n","表达式有误");
+                fprintf(write,"%s\n","表达式有误");
+                fclose(write);
                 return ERROR;
             }
             else if(s==0)
@@ -128,7 +145,8 @@ status calculate(zhan**a)//后缀计算函数
             if(s==-1)
             {
                 printf("result>表达式有误\n");
-                 fprintf(write,"%s\n","表达式有误");
+                fprintf(write,"%s\n","表达式有误");
+                fclose(write);
                 return ERROR;
             }
             else if(s==0)
@@ -141,7 +159,6 @@ status calculate(zhan**a)//后缀计算函数
                 s--;
                 num1=k[s];
                 k[s]=num1-num2;
-                printf("%lf\n",k[0]);
             }  
         }
         else if(*p=='*')
@@ -149,7 +166,8 @@ status calculate(zhan**a)//后缀计算函数
             if(s==0||s==-1)
             {
                 printf("result>表达式有误\n");
-                 fprintf(write,"%s\n","表达式有误");
+                fprintf(write,"%s\n","表达式有误");
+                fclose(write);
                 return ERROR;
             }
             num2=k[s];
@@ -163,6 +181,7 @@ status calculate(zhan**a)//后缀计算函数
             {
                 printf("result>表达式有误\n");
                 fprintf(write,"%s\n","表达式有误");
+                fclose(write);
                 return ERROR;
             }
             num2=k[s];
@@ -172,6 +191,7 @@ status calculate(zhan**a)//后缀计算函数
             {
                 printf("result>表达式有误\n");
                 fprintf(write,"%s\n","表达式有误");
+                fclose(write);
                 return ERROR;
             }
             else
