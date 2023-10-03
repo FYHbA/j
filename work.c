@@ -9,6 +9,7 @@
 #define CLOSE "\001\033[0m\002"                 // 关闭所有属性
 #define BLOD  "\001\033[1m\002"                 // 强调、加粗、高亮
 #define BEGIN(x,y) "\001\033["#x";"#y"m\002"  // x: 背景，y: 前景
+#define CHECK
 int main()
 {
     read_history(NULL);
@@ -22,6 +23,9 @@ int main()
         stackelem *input=readline(BEGIN(49,34)"interaction>"CLOSE);
         if(isdigit(input[0])||strchr(op,input[0]))
         {
+            #ifdef CHECK
+            printf("%s",input);
+            #endif
             int c=change(input,&a,&b);
             if(c==1)
             {

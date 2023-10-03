@@ -5,6 +5,7 @@
 #include<ctype.h>
 #include"ku.h"
 #include<math.h>
+#define CHECK
 status change(stackelem c[],zhan**a,zhan**b)//中缀转后缀表达式
 {
     FILE*write=fopen("result.txt","a+");
@@ -103,6 +104,10 @@ status change(stackelem c[],zhan**a,zhan**b)//中缀转后缀表达式
     free(j);
     j=NULL;
     fclose(write);
+    #ifdef CHECK
+       printf("%s",(*a)->top);
+    #endif
+    printf()
     return OK;
 }
 status calculate(zhan**a)//后缀计算函数
@@ -118,6 +123,9 @@ status calculate(zhan**a)//后缀计算函数
         {
             s++;
             k[s]=atof(p);
+            #ifdef CHECK
+                printf("%lf",k[s]);
+            #endif
         }
         else if(*p=='+')
         { 
