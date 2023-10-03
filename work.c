@@ -24,7 +24,7 @@ int main()
         if(isdigit(input[0])||strchr(op,input[0]))
         {
             #ifdef CHECK
-            printf("%s",input);
+                printf("%s\n",input);
             #endif
             int c=change(input,&a,&b);
             if(c==1)
