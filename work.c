@@ -15,13 +15,18 @@ int main()
     read_history(NULL);
     char op[]={'+','-','*','/','(',')'};
     stack*a,*b;
+    int i=0;
     printf("欢迎是用简易加减乘除计算器，请输入表达式： \n");
     while(1)
     {
         StackInit(&a);
         StackInit(&b);
         stackelem *input=readline(BEGIN(49,34)"interaction>"CLOSE);
-        if(isdigit(input[0])||strchr(op,input[0]))
+        while(input[i]==' ')
+        {
+            i++;
+        }
+        if(isdigit(input[i])||strchr(op,input[i]))
         {
             #ifdef CHECK
                 printf("%s\n",input);
