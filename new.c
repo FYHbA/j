@@ -4,85 +4,85 @@
 #include<string.h>
 #include"ku.h"
 
-status creatzhan(zhan **stack)
+status StackInit(stack **sta)
 {
-    *stack=(zhan*)malloc(sizeof(zhan));
-    (*stack)->base=(stackelem*)malloc(sizeof(stackelem)*300);
-    (*stack)->top=(*stack)->base;
-    if (!(*stack)->base)
+    *sta=(stack*)malloc(sizeof(stack));
+    (*sta)->base=(stackelem*)malloc(sizeof(stackelem)*300);
+    (*sta)->top=(*sta)->base;
+    if (!(*sta)->base)
     {
         return ERROR;
     }
-    (*stack)->base[0]=' ';
-    (*stack)->size=0;
+    (*sta)->base[0]=' ';
+    (*sta)->size=0;
     return OK;
 }
-status visit(zhan *stack)//访问函数
+status visit(stack *sta)//访问函数
 {
-    printf("%s",stack->base);
+    printf("%s",sta->base);
     return OK;
 }
-status push(zhan **stack,stackelem **pelem)//入栈
+status push(stack **sta,stackelem **pelem)//入栈
 {
     if(!pelem)
     {
         return ERROR;
     }
-    (*stack)->top++;
-    (*stack)->top[0]=**pelem;   
-    (*stack)->size++;
+    (*sta)->top++;
+    (*sta)->top[0]=**pelem;   
+    (*sta)->size++;
     return OK;
 }
 
-bool empty(zhan *stack)//通过返回值判断栈是否为空
+bool empty(stack *sta)//通过返回值判断栈是否为空
 {
-    return stack->size==0;
+    return sta->size==0;
 }
-status pop(zhan **stack,stackelem **pelem)//出栈
+status pop(stack **sta,stackelem **pelem)//出栈
 {
-    if(empty(*stack))
+    if(empty(*sta))
     {
         return ERROR;
     }
     else
     {
-        **pelem=*(*stack)->top;
-        *(*stack)->top='\0';
-        (*stack)->top --;
-        (*stack)->size--;
+        **pelem=*(*sta)->top;
+        *(*sta)->top='\0';
+        (*sta)->top --;
+        (*sta)->size--;
         return OK;
     }
 
 }
-void clear(zhan **stack)//清空栈
+void clear(stack **sta)//清空栈
 {
-    (*stack)->top=(*stack)->base;
-    *(*stack)->top='\0';
-    (*stack)->size=0;
+    (*sta)->top=(*sta)->base;
+    *(*sta)->top='\0';
+    (*sta)->size=0;
 }
-void free_all(zhan **stack)//释放栈元素
+void free_all(stack **sta)//释放栈元素
 {
-    free((*stack)->base);
-    free(*stack);
+    free((*sta)->base);
+    free(*sta);
 }
-int length(zhan *stack)//求栈长度
+int length(stack *sta)//求栈长度
 {
-    return stack->size;
+    return sta->size;
 }
-status get_top(zhan **stack,stackelem **pelem)//取栈顶元素
+status get_top(stack **sta,stackelem **pelem)//取栈顶元素
 {
-    if(empty(*stack))
+    if(empty(*sta))
     {
         return ERROR;
     }
-    **pelem=*(*stack)->top;
+    **pelem=*(*sta)->top;
     return OK;
 }
-status traverse(zhan *stack,status visit(zhan *stack))
+status traverse(stack *sta,status visit(stack*sta))
 {
-    if(stack->base!=NULL)
+    if(sta->base!=NULL)
     {
-        visit(stack);
+        visit(sta);
         return OK;
     }
     else

@@ -9,17 +9,17 @@
 #define CLOSE "\001\033[0m\002"                 // 关闭所有属性
 #define BLOD  "\001\033[1m\002"                 // 强调、加粗、高亮
 #define BEGIN(x,y) "\001\033["#x";"#y"m\002"  // x: 背景，y: 前景
-#define CHECK
+//#define CHECK
 int main()
 {
     read_history(NULL);
     char op[]={'+','-','*','/','(',')'};
-    zhan*a,*b;
+    stack*a,*b;
     printf("欢迎是用简易加减乘除计算器，请输入表达式： \n");
     while(1)
     {
-        creatzhan(&a);
-        creatzhan(&b);
+        StackInit(&a);
+        StackInit(&b);
         stackelem *input=readline(BEGIN(49,34)"interaction>"CLOSE);
         if(isdigit(input[0])||strchr(op,input[0]))
         {
@@ -44,6 +44,7 @@ int main()
             printf("quit或q结束使用\n");
             printf("enter键计算表达式\n");
             printf("不能输入=号\n");
+            printf("你所有打的空格都会被忽略\n");
         }
         else if(strcmp(input,"quit")==0||*input=='q')
         {

@@ -1,27 +1,27 @@
 #ifndef KU_H
 #define KU_H
 typedef char stackelem;
-typedef struct zhan
+typedef struct stack
 {
     stackelem *base;
     stackelem *top;
     int size;
-}zhan;
+}stack;
 typedef enum status
 {
     OK,
     ERROR
 }status;
-status visit(zhan *stack);
-status creatzhan(zhan **stack);
-status push(zhan **stack,stackelem **pelem);//入栈
-status pop(zhan **stack,stackelem **pelem);//出栈
-bool empty(zhan*stack);
-void clear(zhan **stack);
-void free_all(zhan **stack);//释放栈元素
-int length(zhan *stack);
-status get_top(zhan **stack,stackelem **pelem); 
-status traverse(zhan *stack,status visit(zhan *stack));
-status change(stackelem c[],zhan**a,zhan**b);
-status calculate(zhan**a);
+status visit(stack *sta);
+status StackInit(stack **sta);
+status push(stack **sta,stackelem **pelem);//入栈
+status pop(stack **sta,stackelem **pelem);//出栈
+bool empty(stack*sta);
+void clear(stack **sta);
+void free_all(stack **sta);//释放栈元素
+int length(stack *sta);
+status get_top(stack **sta,stackelem **pelem); 
+status traverse(stack *sta,status visit(stack *sta));
+status change(stackelem c[],stack**a,stack**b);
+status calculate(stack**a);
 #endif

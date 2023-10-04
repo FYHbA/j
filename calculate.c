@@ -5,11 +5,12 @@
 #include<ctype.h>
 #include"ku.h"
 #include<math.h>
-#define CHECK
-status change(stackelem c[],zhan**a,zhan**b)//中缀转后缀表达式
+//#define CHECK
+status change(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
 {
     FILE*write=fopen("result.txt","a+");
     stackelem*j=NULL;
+    int t=0;
     j=malloc(1);
     char op[]={'+','-','*','/'};
     for(int i=0;c[i]!='\0';i++)
@@ -18,14 +19,37 @@ status change(stackelem c[],zhan**a,zhan**b)//中缀转后缀表达式
         {
             *j=c[i];
             push(a,&j);
+            while(c[i+1]==' ')
+            {
+                i++;
+                continue;
+            }
             while(isdigit(c[i+1])||c[i+1]=='.')
             {
+                if(c[i+1]=='.')
+                {
+                    t++;
+                }
                 *j=c[i+1];
                 push(a,&j);
                 i++;
+                    while(c[i+1]==' ')
+                {
+                    i++;
+                    continue;
+                }
             }
             (*a)->top++;
             (*a)->top[0]=' ';
+            if(t>1)
+            {
+                printf("result>表达式有误\n");
+                fprintf(write,"%s\n","表达式有误");
+                fclose(write);                   
+                return ERROR;
+            }
+            else
+            t=0;
         }
         else if(c[i]=='+'||c[i]=='-')
         {
@@ -55,19 +79,47 @@ status change(stackelem c[],zhan**a,zhan**b)//中缀转后缀表达式
         {
             *j=c[i];
             push(b,&j);
+            while(c[i+1]==' ')
+            {
+                i++;
+                continue;
+            }
             if(c[i+1]=='-')
             {
                 i++;
                 *j=c[i];
                 push(a,&j);
+                while(c[i+1]==' ')
+                {
+                    i++;
+                    continue;
+                }
                 while(isdigit(c[i+1])||c[i+1]=='.')
                 {
+                    if(c[i+1]=='.')
+                    {
+                       t++;
+                    }
                     *j=c[i+1];
                     push(a,&j);
                     i++;
+                    while(c[i+1]==' ')
+                    {
+                       i++;
+                       continue;
+                    }
                 }
                 (*a)->top++;
                 (*a)->top[0]=' ';
+                if(t>1)
+                {
+                    printf("result>表达式有误\n");
+                    fprintf(write,"%s\n","表达式有误");
+                    fclose(write);                   
+                    return ERROR;
+                }
+                else
+                t=0;
             }
         }
         else if(c[i]==')')
@@ -109,7 +161,7 @@ status change(stackelem c[],zhan**a,zhan**b)//中缀转后缀表达式
     #endif
     return OK;
 }
-status calculate(zhan**a)//后缀计算函数
+status calculate(stack**a)//后缀计算函数
 {
     FILE*write=fopen("result.txt","a+");
     double k[10];
