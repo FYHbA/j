@@ -45,7 +45,8 @@ status change(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
             {
                 printf("result>表达式有误\n");
                 fprintf(write,"%s\n","表达式有误");
-                fclose(write);                   
+                fclose(write);         
+                free(j);          
                 return ERROR;
             }
             else
@@ -84,6 +85,14 @@ status change(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
                 i++;
                 continue;
             }
+            if(c[i+1]=='\0')
+            {
+                printf("result>表达式有误\n");
+                fprintf(write,"%s\n","表达式有误");
+                fclose(write);   
+                free(j); 
+                return ERROR;
+            }
             if(c[i+1]=='-')
             {
                 i++;
@@ -115,7 +124,8 @@ status change(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
                 {
                     printf("result>表达式有误\n");
                     fprintf(write,"%s\n","表达式有误");
-                    fclose(write);                   
+                    fclose(write);   
+                    free(j);                
                     return ERROR;
                 }
                 else
@@ -124,12 +134,28 @@ status change(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
         }
         else if(c[i]==')')
         {
+            if((*b)->top[0]=='(')
+            {
+                printf("result>表达式有误\n");
+                fprintf(write,"%s\n","表达式有误");
+                fclose(write);   
+                free(j); 
+                return ERROR;
+            }
             while((*b)->top[0]!='(')
             {
                 pop(b,&j);
                 push(a,&j);
                 (*a)->top++;
                 (*a)->top[0]=' ';
+                if((*b)->top[-1]=='\0')
+                {
+                    printf("result>表达式有误\n");
+                    fprintf(write,"%s\n","表达式有误");
+                    fclose(write);   
+                    free(j); 
+                    return ERROR;
+                }
             }
             pop(b,&j);
         }
@@ -143,6 +169,7 @@ status change(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
             printf("result>表达式有误\n");
             fprintf(write,"%s\n","表达式有误");
             fclose(write);
+            free(j);
             return ERROR;
         }
     }

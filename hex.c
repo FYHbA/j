@@ -4,20 +4,10 @@
 #include<string.h>
 #include<ctype.h>
 #include"ku.h"
-//#define CHECK
+#define CHECK
 
 #include <stdio.h>
-
-void dec2bin(int dec)
-{
-    if(dec > 1)
-        dec2bin(dec/2);
-    FILE*write=fopen("result.txt","a+");
-    printf("%d", dec%2);
-    fprintf(write,"%d",dec%2);
-    fclose(write);
-}
-status change_two(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
+status change_hex(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
 {
     FILE*write=fopen("result.txt","a+");
     stackelem*j=NULL;
@@ -25,7 +15,7 @@ status change_two(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
     char op[]={'+','-','*','/'};
     for(int i=0;c[i]!='\0';i++)
     {
-        if(c[i]=='1'||c[i]=='0')
+        if(isdigit(c[i])||isalpha(c[i]))
         {
             *j=c[i];
             push(a,&j);
@@ -34,7 +24,7 @@ status change_two(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
                 i++;
                 continue;
             }
-            while(c[i+1]=='1'||c[i+1]=='0')
+            while(isdigit(c[i+1])||isalpha(c[i+1]))
             {
                 *j=c[i+1];
                 push(a,&j);
@@ -145,27 +135,22 @@ status change_two(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
     #endif
     return OK;
 }
-status calculate_two(stack**a)//后缀计算函数
+status calculate_hex(stack**a)//后缀计算函数
 {
     FILE*write=fopen("result.txt","a+");
-    int k[10];
+    long unsigned int k[10];
     int s=-1;
-    int num1,num2;
+    long int num1,num2;
     char*p=strtok((*a)->base," ");
-    int i,sum=0;
+    int i;
     while(p!=NULL)
     {
-        if(isdigit(p[0]))
+        if(isdigit(p[0])||isalpha(p[0]))
         {
-            for(i=0;p[i]!='\0'&&i<31;i++)
-            {
-                sum=2*sum+(p[i]-48);       //这里的48等价于'0'
-            }
             s++;
-            k[s]=sum;
-            sum=0;
+            sscanf(p,"%lX",&k[s]);
             #ifdef CHECK
-                printf("%d\n",k[s]);
+                printf("%lX\n",k[s]);
             #endif
         }
         else if(*p=='+')
@@ -249,14 +234,11 @@ status calculate_two(stack**a)//后缀计算函数
         p=strtok(NULL," ");
     }
     #ifdef CHECK
-        printf("%d\n",k[0]);
+        printf("%lX\n",k[0]);
     #endif
-    printf("result> ");
+
+    printf("result> %lX\n",k[0]);
+    fprintf(write,"%lX\n",k[0]);
     fclose(write);
-    dec2bin(k[0]);
-    write=fopen("result.txt","a+");
-    fprintf(write,"\n");
-    fclose(write);
-    printf("\n");
     return OK;
 }

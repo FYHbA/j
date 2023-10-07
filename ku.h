@@ -24,5 +24,9 @@ status get_top(stack **sta,stackelem **pelem);
 status traverse(stack *sta,status visit(stack *sta));
 status change(stackelem c[],stack**a,stack**b);
 status calculate(stack**a);
-//status change_two(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
+status calculate_two(stack**a);
+status change_two(stackelem c[],stack**a,stack**b);//中缀转后缀表达式
+void dec2bin(int dec);
+status calculate_hex(stack**a);
+status change_hex(stackelem c[],stack**a,stack**b);
 #endif
