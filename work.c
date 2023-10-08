@@ -98,6 +98,15 @@ int main()
                     continue;
                 }
                 calculate(&a);
+            }
+            else
+            {
+                free_all(&a);
+                free_all(&b);
+                free(input);
+                printf("result>error\n");
+                i=0;
+                continue;
             }        
         }
         else if(mode=='B')
@@ -118,6 +127,15 @@ int main()
                 }
                 calculate_two(&a);
             }
+            else
+            {
+                free_all(&a);
+                free_all(&b);
+                free(input);
+                printf("result>error\n");
+                i=0;
+                continue;
+            }        
         }
         else if(mode=='H')
         {
@@ -134,6 +152,15 @@ int main()
                 }
                 calculate_hex(&a);
             }
+            else
+            {
+                free_all(&a);
+                free_all(&b);
+                free(input);
+                printf("result>error\n");
+                i=0;
+                continue;
+            }        
         }
         add_history(input);
         write_history(NULL);
