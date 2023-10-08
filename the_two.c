@@ -1,3 +1,4 @@
+//本文件是用于与二进制计算的相关函数
 #include<stdio.h>
 #include<stdlib.h>
 #include <stdbool.h>

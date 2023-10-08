@@ -1,3 +1,4 @@
+//本文件是用于实现计算机的主函数
 #include<stdio.h>
 #include<stdlib.h>
 #include <stdbool.h>

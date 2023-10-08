@@ -1,3 +1,4 @@
+//本文件是用于调试计算机的main函数
 #include<stdio.h>
 #include<stdlib.h>
 #include <stdbool.h>

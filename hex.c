@@ -1,3 +1,4 @@
+//本文件用于定义16进制中缀转后缀的函数和计算16进制数的函数
 #include<stdio.h>
 #include<stdlib.h>
 #include <stdbool.h>
