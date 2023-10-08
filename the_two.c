@@ -5,7 +5,7 @@
 #include<string.h>
 #include<ctype.h>
 #include"ku.h"
-//#define CHECK
+#define CHECK
 
 #include <stdio.h>
 
@@ -52,6 +52,42 @@ status change_two(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
         else if(c[i]=='+'||c[i]=='-')
         {
             while(strchr(op,(*b)->top[0]))
+            {
+                pop(b,&j);
+                push(a,&j);
+                (*a)->top++;
+                (*a)->top[0]=' ';
+            }
+            *j=c[i];
+            push(b,&j);
+        }
+        else if(c[i]=='&')
+        {
+            while(strchr(op,(*b)->top[0])||(*b)->top[0]=='&')
+            {
+                pop(b,&j);
+                push(a,&j);
+                (*a)->top++;
+                (*a)->top[0]=' ';
+            }
+            *j=c[i];
+            push(b,&j);
+        }
+        else if(c[i]=='^')
+        {
+            while(strchr(op,(*b)->top[0])||(*b)->top[0]=='&'||(*b)->top[0]=='^')
+            {
+                pop(b,&j);
+                push(a,&j);
+                (*a)->top++;
+                (*a)->top[0]=' ';
+            }
+            *j=c[i];
+            push(b,&j);
+        }
+        else if(c[i]=='|')
+        {
+            while(strchr(op,(*b)->top[0])||(*b)->top[0]=='&'||(*b)->top[0]=='^'||(*b)->top[0]=='|')
             {
                 pop(b,&j);
                 push(a,&j);
@@ -246,6 +282,48 @@ status calculate_two(stack**a)//后缀计算函数
             }
             else
             k[s]=num1/num2;
+        }
+        else if(*p=='&')
+        {
+            if(s==0||s==-1)
+            {
+                printf("result>表达式有误\n");
+                fprintf(write,"%s\n","表达式有误");
+                fclose(write);
+                return ERROR;
+            }
+            num2=k[s];
+            s--;
+            num1=k[s];
+            k[s]=num1&num2;
+        }
+        else if(*p=='^')
+        {
+            if(s==0||s==-1)
+            {
+                printf("result>表达式有误\n");
+                fprintf(write,"%s\n","表达式有误");
+                fclose(write);
+                return ERROR;
+            }
+            num2=k[s];
+            s--;
+            num1=k[s];
+            k[s]=num1^num2;
+        }
+        else if(*p=='|')
+        {
+            if(s==0||s==-1)
+            {
+                printf("result>表达式有误\n");
+                fprintf(write,"%s\n","表达式有误");
+                fclose(write);
+                return ERROR;
+            }
+            num2=k[s];
+            s--;
+            num1=k[s];
+            k[s]=num1|num2;
         }
         p=strtok(NULL," ");
     }

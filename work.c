@@ -99,6 +99,14 @@ int main()
                 }
                 calculate(&a);
             }
+            else if(input[0]=='D'&&input[1]=='\0')
+            {
+                free_all(&a);
+                free_all(&b);
+                free(input);
+                i=0;
+                continue;
+            }
             else
             {
                 free_all(&a);
@@ -127,6 +135,14 @@ int main()
                 }
                 calculate_two(&a);
             }
+            else if(input[0]=='B'&&input[1]=='\0')
+            {
+                free_all(&a);
+                free_all(&b);
+                free(input);
+                i=0;
+                continue;
+            }
             else
             {
                 free_all(&a);
@@ -152,6 +168,14 @@ int main()
                 }
                 calculate_hex(&a);
             }
+            else if(input[0]=='H'&&input[1]=='\0')
+            {
+                free_all(&a);
+                free_all(&b);
+                free(input);
+                i=0;
+                continue;
+            }
             else
             {
                 free_all(&a);
@@ -167,7 +191,7 @@ int main()
         free_all(&a);
         free_all(&b);
         free(input);
-        i==0;
+        i=0;
     }
     return 0;
 }
