@@ -1,3 +1,4 @@
+//本文件是用于实现十进制计算的函数的定义，包括中缀转后缀和计算两个函数
 #include<stdio.h>
 #include<stdlib.h>
 #include <stdbool.h>
@@ -5,7 +6,7 @@
 #include<ctype.h>
 #include"ku.h"
 #include<math.h>
-//#define CHECK
+#define CHECK
 status change(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
 {
     FILE*write=fopen("result.txt","a+");
@@ -63,6 +64,344 @@ status change(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
             }
             *j=c[i];
             push(b,&j);
+        }
+        else if(c[i]=='>'||c[i]=='<')
+        {
+            while(1)
+            {
+                if(strchr(op,(*b)->top[0])||(*b)->top[0]=='<'||(*b)->top[0]=='>')
+                {
+                    pop(b,&j);
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else if((*b)->top[0]=='='&&(*b)->top[-1]=='<')
+                {
+                    pop(b,&j);
+                    pop(b,&j);
+                    push(a,&j);
+                    *j='=';
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else if((*b)->top[0]=='='&&(*b)->top[-1]=='>')
+                {
+                    pop(b,&j);
+                    pop(b,&j);
+                    push(a,&j);
+                    *j='=';
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else
+                break;
+            }
+            *j=c[i];
+            push(b,&j);
+        }
+        else if(c[i]=='>'&&c[i+1]=='=')
+        {
+             while(1)
+            {
+                if(strchr(op,(*b)->top[0])||(*b)->top[0]=='<'||(*b)->top[0]=='>')
+                {
+                    pop(b,&j);
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else if((*b)->top[0]=='='&&(*b)->top[-1]=='<')
+                {
+                    pop(b,&j);
+                    pop(b,&j);
+                    push(a,&j);
+                    *j='=';
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else if((*b)->top[0]=='='&&(*b)->top[-1]=='>')
+                {
+                    pop(b,&j);
+                    pop(b,&j);
+                    push(a,&j);
+                    *j='=';
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else
+                break;
+            }
+            *j=c[i];
+            push(b,&j);
+            *j=c[i+1];
+            push(b,&j);
+            i++;
+        }
+        else if(c[i]=='<'&&c[i+1]=='=')
+        {
+             while(1)
+            {
+                if(strchr(op,(*b)->top[0])||(*b)->top[0]=='<'||(*b)->top[0]=='>')
+                {
+                    pop(b,&j);
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else if((*b)->top[0]=='='&&(*b)->top[-1]=='<')
+                {
+                    pop(b,&j);
+                    pop(b,&j);
+                    push(a,&j);
+                    *j='=';
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else if((*b)->top[0]=='='&&(*b)->top[-1]=='>')
+                {
+                    pop(b,&j);
+                    pop(b,&j);
+                    push(a,&j);
+                    *j='=';
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else
+                break;
+            }
+            *j=c[i];
+            push(b,&j);
+            *j=c[i+1];
+            push(b,&j);
+            i++;
+        }
+        else if(c[i]=='='||c[i]=='!')
+        {
+            if(c[i+1]=='=')
+            {
+                 while(1)
+                {
+                    if(strchr(op,(*b)->top[0])||(*b)->top[0]=='<'||(*b)->top[0]=='>')
+                    {
+                        pop(b,&j);
+                        push(a,&j);
+                        (*a)->top++;
+                        (*a)->top[0]=' ';
+                    }
+                    else if((*b)->top[0]=='='&&(*b)->top[-1]=='<')
+                    {
+                        pop(b,&j);
+                        pop(b,&j);
+                        push(a,&j);
+                        *j='=';
+                        push(a,&j);
+                        (*a)->top++;
+                        (*a)->top[0]=' ';
+                    }
+                    else if((*b)->top[0]=='='&&(*b)->top[-1]=='>')
+                    {
+                        pop(b,&j);
+                        pop(b,&j);
+                        push(a,&j);
+                        *j='=';
+                        push(a,&j);
+                        (*a)->top++;
+                        (*a)->top[0]=' ';
+                    }
+                    else if((*b)->top[0]=='='&&(*b)->top[-1]=='!')
+                    {
+                        pop(b,&j);
+                        pop(b,&j);
+                        push(a,&j);
+                        *j='=';
+                        push(a,&j);
+                        (*a)->top++;
+                        (*a)->top[0]=' ';
+                    }
+                    else if((*b)->top[0]=='='&&(*b)->top[-1]=='=')
+                    {
+                        pop(b,&j);
+                        pop(b,&j);
+                        push(a,&j);
+                        *j='=';
+                        push(a,&j);
+                        (*a)->top++;
+                        (*a)->top[0]=' ';
+                    }
+                    else
+                    break;
+                }
+                *j=c[i];
+                push(b,&j);
+                *j=c[i+1];
+                push(b,&j);
+                i++;
+            }
+            else
+            {
+                printf("result>表达式有误\n");
+                fprintf(write,"%s\n","表达式有误");
+                fclose(write);   
+                free(j); 
+                return ERROR;
+            }
+        }
+        else if(c[i]=='|'&&c[i+1]=='|')
+        {
+             while(1)
+            {
+                if(strchr(op,(*b)->top[0])||(*b)->top[0]=='<'||(*b)->top[0]=='>')
+                {
+                    pop(b,&j);
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else if((*b)->top[0]=='='&&(*b)->top[-1]=='<')
+                {
+                    pop(b,&j);
+                    pop(b,&j);
+                    push(a,&j);
+                    *j='=';
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else if((*b)->top[0]=='='&&(*b)->top[-1]=='>')
+                {
+                    pop(b,&j);
+                    pop(b,&j);
+                    push(a,&j);
+                    *j='=';
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else if((*b)->top[0]=='='&&(*b)->top[-1]=='!')
+                {
+                        pop(b,&j);
+                        pop(b,&j);
+                        push(a,&j);
+                        *j='=';
+                        push(a,&j);
+                        (*a)->top++;
+                        (*a)->top[0]=' ';
+                }
+                else if((*b)->top[0]=='='&&(*b)->top[-1]=='=')
+                {
+                    pop(b,&j);
+                    pop(b,&j);
+                    push(a,&j);
+                    *j='=';
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else if((*b)->top[0]=='&'&&(*b)->top[-1]=='&')
+                {
+                    pop(b,&j);
+                    pop(b,&j);
+                    push(a,&j);
+                    *j='&';
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else if((*b)->top[0]=='|'&&(*b)->top[-1]=='|')
+                {
+                    pop(b,&j);
+                    pop(b,&j);
+                    push(a,&j);
+                    *j='|';
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else
+                break;
+            }
+                *j=c[i];
+                push(b,&j);
+                *j=c[i+1];
+                push(b,&j);
+                i++;
+        }
+        else if(c[i]=='&'&&c[i+1]=='&')
+        {
+             while(1)
+            {
+                if(strchr(op,(*b)->top[0])||(*b)->top[0]=='<'||(*b)->top[0]=='>')
+                {
+                    pop(b,&j);
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else if((*b)->top[0]=='='&&(*b)->top[-1]=='<')
+                {
+                    pop(b,&j);
+                    pop(b,&j);
+                    push(a,&j);
+                    *j='=';
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else if((*b)->top[0]=='='&&(*b)->top[-1]=='>')
+                {
+                    pop(b,&j);
+                    pop(b,&j);
+                    push(a,&j);
+                    *j='=';
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else if((*b)->top[0]=='='&&(*b)->top[-1]=='!')
+                {
+                    pop(b,&j);
+                    pop(b,&j);
+                    push(a,&j);
+                    *j='=';
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else if((*b)->top[0]=='='&&(*b)->top[-1]=='=')
+                {
+                    pop(b,&j);
+                    pop(b,&j);
+                    push(a,&j);
+                    *j='=';
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else if((*b)->top[0]=='&'&&(*b)->top[-1]=='&')
+                {
+                    pop(b,&j);
+                    pop(b,&j);
+                    push(a,&j);
+                    *j='&';
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else
+                break;
+            }
+                *j=c[i];
+                push(b,&j);
+                *j=c[i+1];
+                push(b,&j);
+                i++;
         }
         else if (c[i]=='*'||c[i]=='/')
         {
@@ -163,7 +502,6 @@ status change(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
         {
             continue;
         }
-        
         else
         {
             printf("result>表达式有误\n");
@@ -175,10 +513,22 @@ status change(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
     }
     while((*b)->top!=(*b)->base)
     {
-        pop(b,&j);
-        push(a,&j);
-        (*a)->top++;
-        (*a)->top[0]=' ';
+        if((*b)->top[0]=='='||(*b)->top[0]=='&'||(*b)->top[0]=='|')
+        {
+            pop(b,&j);
+            push(a,&j);
+            pop(b,&j);
+            push(a,&j);
+            (*a)->top++;
+            (*a)->top[0]=' ';
+        }
+        else
+        {
+            pop(b,&j);
+            push(a,&j);
+            (*a)->top++;
+            (*a)->top[0]=' ';
+        }
     }
     free(j);
     j=NULL;
@@ -282,6 +632,90 @@ status calculate(stack**a)//后缀计算函数
             }
             else
             k[s]=num1/num2;
+        }
+        else if(strcmp(p,">=")==0)
+        {
+            if(s==0||s==-1)
+            {
+                printf("result>表达式有误\n");
+                fprintf(write,"%s\n","表达式有误");
+                fclose(write);
+                return ERROR;
+            }
+            num2=k[s];
+            s--;
+            num1=k[s];
+            k[s]=num1>=num2;
+        }
+        else if(strcmp(p,"<=")==0)
+        {
+            if(s==0||s==-1)
+            {
+                printf("result>表达式有误\n");
+                fprintf(write,"%s\n","表达式有误");
+                fclose(write);
+                return ERROR;
+            }
+            num2=k[s];
+            s--;
+            num1=k[s];
+            k[s]=num1<=num2;
+        }
+        else if(strcmp(p,"==")==0)
+        {
+            if(s==0||s==-1)
+            {
+                printf("result>表达式有误\n");
+                fprintf(write,"%s\n","表达式有误");
+                fclose(write);
+                return ERROR;
+            }
+            num2=k[s];
+            s--;
+            num1=k[s];
+            k[s]=num1==num2;
+        }
+        else if(strcmp(p,"!=")==0)
+        {
+            if(s==0||s==-1)
+            {
+                printf("result>表达式有误\n");
+                fprintf(write,"%s\n","表达式有误");
+                fclose(write);
+                return ERROR;
+            }
+            num2=k[s];
+            s--;
+            num1=k[s];
+            k[s]=num1!=num2;
+        }
+        else if(strcmp(p,"&&")==0)
+        {
+            if(s==0||s==-1)
+            {
+                printf("result>表达式有误\n");
+                fprintf(write,"%s\n","表达式有误");
+                fclose(write);
+                return ERROR;
+            }
+            num2=k[s];
+            s--;
+            num1=k[s];
+            k[s]=num1&&num2;
+        }
+        else if(strcmp(p,"||")==0)
+        {
+            if(s==0||s==-1)
+            {
+                printf("result>表达式有误\n");
+                fprintf(write,"%s\n","表达式有误");
+                fclose(write);
+                return ERROR;
+            }
+            num2=k[s];
+            s--;
+            num1=k[s];
+            k[s]=num1||num2;
         }
         p=strtok(NULL," ");
     }

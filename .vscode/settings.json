@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "ku.h": "c"
+        "ku.h": "c",
+        "math.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

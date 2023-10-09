@@ -1,4 +1,4 @@
-//本文件是用于与二进制计算的相关函数
+//本文件是用于与二进制计算的相关函数，包括中缀转后缀和计算两个函数
 #include<stdio.h>
 #include<stdlib.h>
 #include <stdbool.h>

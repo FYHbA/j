@@ -1,4 +1,4 @@
-//本文件是用于实现计算机的主函数
+//本文件是计算机的主函数
 #include<stdio.h>
 #include<stdlib.h>
 #include <stdbool.h>
@@ -39,6 +39,7 @@ int main()
             printf("你所有打的空格都会被忽略\n");
             printf("输入H是16进制模式，B是2进制模式，D是十进制模式，初始默认十进制。\n");
             printf("二进制和16进制模式只支持无符号整型的+ - * / ()\n");
+            printf("二进制支持按位运算，十进制支持关系运算\n");
         }
         else if(strcmp(input,"quit")==0||*input=='q')
         {

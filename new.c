@@ -1,4 +1,4 @@
-//本文件用于栈的相关函数的定义s
+//本文件用于栈的相关函数的定义.
 #include<stdio.h>
 #include<stdlib.h>
 #include <stdbool.h>
