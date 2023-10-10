@@ -8,7 +8,7 @@
 status StackInit(stack **sta)
 {
     *sta=(stack*)malloc(sizeof(stack));
-    (*sta)->base=(stackelem*)malloc(sizeof(stackelem)*300);
+    (*sta)->base=(stackelem*)malloc(sizeof(stackelem)*3000);
     (*sta)->top=(*sta)->base;
     if (!(*sta)->base)
     {

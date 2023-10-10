@@ -41,6 +41,8 @@ int main()
             printf("二进制和16进制模式只支持无符号整型的+ - * / ()\n");
             printf("二进制支持按位运算，十进制支持关系运算\n");
             printf("注意，关系运算符之间不能有空格，否则会报错\n");
+            printf("注意，二进制和十六进制结果若是小数会自动取整数部分\n");
+            printf("十六进制字母请输入大写\n");
         }
         else if(strcmp(input,"quit")==0||*input=='q')
         {
@@ -51,19 +53,20 @@ int main()
         }
         else if(*input=='D'||*input=='B'||*input=='H')
         {
-            mode=input[0];
-            if(*input=='D')
+            if(*input=='D'&&input[1]=='\0')
             {
                 printf("result> The calculator switches to Decimal \n");
             }
-            else if(*input=='B')
+            else if(*input=='B'&&input[1]=='\0')
             {
                 printf("result> The calculator switches to binary \n");
             }
-            else if(*input=='H')
+            else if(*input=='H'&&input[1]=='\0')
             {
                 printf("result> The calculator switches to hex mode\n");
             }
+            if(input[1]=='\0')
+            mode=input[0];
         }
         else if(input[0]=='\0')
         {
@@ -84,7 +87,7 @@ int main()
         }
         if(mode=='D')
         {
-            if(isdigit(input[i])||input[i]=='(')
+            if(isdigit(input[i])||input[i]=='('||input[i]=='-')
             {
                 #ifdef CHECK
                     printf("%c\n",input[i]);
@@ -157,7 +160,7 @@ int main()
         }
         else if(mode=='H')
         {
-            if(isdigit(input[0])||input[i]=='('||input[i]=='A'||input[i]=='B'||input[i]=='C'||input[i]=='D'||input[i]=='E'||input[i]=='F')
+            if(isdigit(input[i])||input[i]=='('||input[i]=='A'||input[i]=='B'||input[i]=='C'||input[i]=='D'||input[i]=='E'||input[i]=='F')
             {
                 int c=change_hex(input,&a,&b);
                 if(c==1)

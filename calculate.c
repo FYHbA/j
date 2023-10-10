@@ -6,7 +6,7 @@
 #include<ctype.h>
 #include"ku.h"
 #include<math.h>
-#define CHECK
+//#define CHECK
 status change(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
 {
     FILE*write=fopen("result.txt","a+");
@@ -51,7 +51,26 @@ status change(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
                 return ERROR;
             }
             else
-            t=0;
+            {
+                t=0;
+            }
+            while(c[i+1]==' ')
+            {
+                i++;
+                continue;
+            }
+            if(c[i+1]=='(')
+            {
+                while((*b)->top[0]=='*'||(*b)->top[0]=='/')
+                {
+                    pop(b,&j);
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                *j='*';
+                push(b,&j);
+            }
         }
         else if(c[i]=='+'||c[i]=='-')
         {
@@ -61,43 +80,6 @@ status change(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
                 push(a,&j);
                 (*a)->top++;
                 (*a)->top[0]=' ';
-            }
-            *j=c[i];
-            push(b,&j);
-        }
-        else if(c[i]=='>'||c[i]=='<')
-        {
-            while(1)
-            {
-                if(strchr(op,(*b)->top[0])||(*b)->top[0]=='<'||(*b)->top[0]=='>')
-                {
-                    pop(b,&j);
-                    push(a,&j);
-                    (*a)->top++;
-                    (*a)->top[0]=' ';
-                }
-                else if((*b)->top[0]=='='&&(*b)->top[-1]=='<')
-                {
-                    pop(b,&j);
-                    pop(b,&j);
-                    push(a,&j);
-                    *j='=';
-                    push(a,&j);
-                    (*a)->top++;
-                    (*a)->top[0]=' ';
-                }
-                else if((*b)->top[0]=='='&&(*b)->top[-1]=='>')
-                {
-                    pop(b,&j);
-                    pop(b,&j);
-                    push(a,&j);
-                    *j='=';
-                    push(a,&j);
-                    (*a)->top++;
-                    (*a)->top[0]=' ';
-                }
-                else
-                break;
             }
             *j=c[i];
             push(b,&j);
@@ -141,6 +123,10 @@ status change(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
             *j=c[i+1];
             push(b,&j);
             i++;
+            #ifdef CHECK
+                printf("%s\n",(*b)->base);
+                printf("%s\n",(*a)->base);
+            #endif
         }
         else if(c[i]=='<'&&c[i+1]=='=')
         {
@@ -181,6 +167,43 @@ status change(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
             *j=c[i+1];
             push(b,&j);
             i++;
+        }
+        else if(c[i]=='>'||c[i]=='<')
+        {
+            while(1)
+            {
+                if(strchr(op,(*b)->top[0])||(*b)->top[0]=='<'||(*b)->top[0]=='>')
+                {
+                    pop(b,&j);
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else if((*b)->top[0]=='='&&(*b)->top[-1]=='<')
+                {
+                    pop(b,&j);
+                    pop(b,&j);
+                    push(a,&j);
+                    *j='=';
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else if((*b)->top[0]=='='&&(*b)->top[-1]=='>')
+                {
+                    pop(b,&j);
+                    pop(b,&j);
+                    push(a,&j);
+                    *j='=';
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                else
+                break;
+            }
+            *j=c[i];
+            push(b,&j);
         }
         else if(c[i]=='='||c[i]=='!')
         {
@@ -424,7 +447,7 @@ status change(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
                 i++;
                 continue;
             }
-            if(c[i+1]=='\0')
+            if(c[i+1]=='\0'||c[i+1]==')')
             {
                 printf("result>表达式有误\n");
                 fprintf(write,"%s\n","表达式有误");
@@ -473,14 +496,6 @@ status change(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
         }
         else if(c[i]==')')
         {
-            if((*b)->top[0]=='(')
-            {
-                printf("result>表达式有误\n");
-                fprintf(write,"%s\n","表达式有误");
-                fclose(write);   
-                free(j); 
-                return ERROR;
-            }
             while((*b)->top[0]!='(')
             {
                 pop(b,&j);
@@ -497,6 +512,23 @@ status change(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
                 }
             }
             pop(b,&j);
+            while(c[i+1]==' ')
+            {
+                i++;
+                continue;
+            }
+            if(c[i+1]=='(')
+            {
+                while((*b)->top[0]=='*'||(*b)->top[0]=='/')
+                {
+                    pop(b,&j);
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                *j='*';
+                push(b,&j);
+            }
         }
         else if(c[i]==' ')
         {
@@ -516,9 +548,18 @@ status change(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
         if((*b)->top[0]=='='||(*b)->top[0]=='&'||(*b)->top[0]=='|')
         {
             pop(b,&j);
-            push(a,&j);
             pop(b,&j);
-            push(a,&j);
+            if(*j=='>'||*j=='<'||*j=='='||*j=='!')
+            {
+                push(a,&j);
+                *j='=';
+                push(a,&j);
+            }
+            else if(*j=='&'||*j=='|')
+            {
+                push(a,&j);
+                push(a,&j);
+            }
             (*a)->top++;
             (*a)->top[0]=' ';
         }
@@ -529,6 +570,9 @@ status change(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
             (*a)->top++;
             (*a)->top[0]=' ';
         }
+        #ifdef CHECK
+            printf("%s\n",(*b)->base);
+        #endif
     }
     free(j);
     j=NULL;
@@ -633,7 +677,7 @@ status calculate(stack**a)//后缀计算函数
             else
             k[s]=num1/num2;
         }
-        else if(strcmp(p,">=")==0)
+         else if(strcmp(p,">=")==0)
         {
             if(s==0||s==-1)
             {
@@ -660,6 +704,34 @@ status calculate(stack**a)//后缀计算函数
             s--;
             num1=k[s];
             k[s]=num1<=num2;
+        }
+        else if(*p=='>')
+        {
+            if(s==0||s==-1)
+            {
+                printf("result>表达式有误\n");
+                fprintf(write,"%s\n","表达式有误");
+                fclose(write);
+                return ERROR;
+            }
+            num2=k[s];
+            s--;
+            num1=k[s];
+            k[s]=num1>num2;
+        }
+        else if(*p=='<')
+        {
+            if(s==0||s==-1)
+            {
+                printf("result>表达式有误\n");
+                fprintf(write,"%s\n","表达式有误");
+                fclose(write);
+                return ERROR;
+            }
+            num2=k[s];
+            s--;
+            num1=k[s];
+            k[s]=num1<num2;
         }
         else if(strcmp(p,"==")==0)
         {

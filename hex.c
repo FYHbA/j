@@ -5,7 +5,7 @@
 #include<string.h>
 #include<ctype.h>
 #include"ku.h"
-#define CHECK
+//#define CHECK
 
 #include <stdio.h>
 status change_hex(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
@@ -14,9 +14,10 @@ status change_hex(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
     stackelem*j=NULL;
     j=malloc(1);
     char op[]={'+','-','*','/'};
+    char zi[]={'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
     for(int i=0;c[i]!='\0';i++)
     {
-        if(isdigit(c[i])||isalpha(c[i]))
+        if(strchr(zi,c[i]))
         {
             *j=c[i];
             push(a,&j);
@@ -27,17 +28,39 @@ status change_hex(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
             }
             while(isdigit(c[i+1])||isalpha(c[i+1]))
             {
-                *j=c[i+1];
-                push(a,&j);
-                i++;
-                    while(c[i+1]==' ')
+                if(strchr(zi,c[i+1]))
                 {
+                    *j=c[i+1];
+                    push(a,&j);
                     i++;
-                    continue;
+                    while(c[i+1]==' ')
+                    {
+                        i++;
+                        continue;
+                    }
                 }
+                else
+                break;
             }
             (*a)->top++;
             (*a)->top[0]=' ';
+            while(c[i+1]==' ')
+            {
+                i++;
+                continue;
+            }
+            if(c[i+1]=='(')
+            {
+                while((*b)->top[0]=='*'||(*b)->top[0]=='/')
+                {
+                    pop(b,&j);
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                *j='*';
+                push(b,&j);
+            }
         }
         else if(c[i]=='+'||c[i]=='-')
         {
@@ -72,7 +95,7 @@ status change_hex(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
                 i++;
                 continue;
             }
-            if(c[i+1]=='\0')
+            if(c[i+1]=='\0'||c[i+1]==')')
             {
                 printf("result>表达式有误\n");
                 fprintf(write,"%s\n","表达式有误");
@@ -83,14 +106,6 @@ status change_hex(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
         }
         else if(c[i]==')')
         {
-            if((*b)->top[0]=='(')
-            {
-                printf("result>表达式有误\n");
-                fprintf(write,"%s\n","表达式有误");
-                fclose(write);   
-                free(j); 
-                return ERROR;
-            }
             while((*b)->top[0]!='(')
             {
                 pop(b,&j);
@@ -107,6 +122,23 @@ status change_hex(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
                 }
             }
             pop(b,&j);
+            while(c[i+1]==' ')
+            {
+                i++;
+                continue;
+            }
+            if(c[i+1]=='(')
+            {
+                while((*b)->top[0]=='*'||(*b)->top[0]=='/')
+                {
+                    pop(b,&j);
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                *j='*';
+                push(b,&j);
+            }
         }
         else if(c[i]==' ')
         {
@@ -120,6 +152,10 @@ status change_hex(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
             free(j);
             return ERROR;
         }
+        #ifdef CHECK
+            printf("%s\n",(*a)->base);
+            printf("%s\n",(*b)->base);
+        #endif
     }
     while((*b)->top!=(*b)->base)
     {
@@ -133,6 +169,7 @@ status change_hex(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
     fclose(write);
     #ifdef CHECK
        printf("%s\n",(*a)->base);
+       printf("%s\n",(*b)->base);
     #endif
     return OK;
 }

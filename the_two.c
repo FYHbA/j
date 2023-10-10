@@ -5,7 +5,7 @@
 #include<string.h>
 #include<ctype.h>
 #include"ku.h"
-#define CHECK
+//#define CHECK
 
 #include <stdio.h>
 
@@ -48,6 +48,23 @@ status change_two(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
             }
             (*a)->top++;
             (*a)->top[0]=' ';
+            while(c[i+1]==' ')
+            {
+                i++;
+                continue;
+            }
+            if(c[i+1]=='(')
+            {
+                while((*b)->top[0]=='*'||(*b)->top[0]=='/')
+                {
+                    pop(b,&j);
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                *j='*';
+                push(b,&j);
+            }
         }
         else if(c[i]=='+'||c[i]=='-')
         {
@@ -118,7 +135,7 @@ status change_two(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
                 i++;
                 continue;
             }
-            if(c[i+1]=='\0')
+            if(c[i+1]=='\0'||c[i+1]==')')
             {
                 printf("result>表达式有误\n");
                 fprintf(write,"%s\n","表达式有误");
@@ -129,14 +146,6 @@ status change_two(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
         }
         else if(c[i]==')')
         {
-            if((*b)->top[0]=='(')
-            {
-                printf("result>表达式有误\n");
-                fprintf(write,"%s\n","表达式有误");
-                fclose(write);   
-                free(j); 
-                return ERROR;
-            }
             while((*b)->top[0]!='(')
             {
                 pop(b,&j);
@@ -153,6 +162,23 @@ status change_two(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
                 }
             }
             pop(b,&j);
+            while(c[i+1]==' ')
+            {
+                i++;
+                continue;
+            }
+            if(c[i+1]=='(')
+            {
+                while((*b)->top[0]=='*'||(*b)->top[0]=='/')
+                {
+                    pop(b,&j);
+                    push(a,&j);
+                    (*a)->top++;
+                    (*a)->top[0]=' ';
+                }
+                *j='*';
+                push(b,&j);
+            }
         }
         else if(c[i]==' ')
         {
