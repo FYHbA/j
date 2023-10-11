@@ -185,6 +185,13 @@ status calculate_hex(stack**a)//后缀计算函数
     {
         if(isdigit(p[0])||isalpha(p[0]))
         {
+            if(strlen(p)>16)
+            {
+                printf("result>输入的数超过边界了\n");
+                fprintf(write,"%s\n","输入的数超过边界了");
+                fclose(write);
+                return ERROR;
+            }
             s++;
             sscanf(p,"%lX",&k[s]);
             #ifdef CHECK
@@ -211,6 +218,13 @@ status calculate_hex(stack**a)//后缀计算函数
                 num1=k[s];
                 k[s]=num1+num2;
             }  
+            if (k[s]<num1)
+            {
+                printf("result>结果到边界啦\n");
+                fprintf(write,"%s\n","结果到边界啦");
+                fclose(write);
+                return ERROR;
+            }  
         }
         else if(*p=='-')
         {
@@ -231,7 +245,14 @@ status calculate_hex(stack**a)//后缀计算函数
                 s--;
                 num1=k[s];
                 k[s]=num1-num2;
-            }  
+            }
+            if (k[s]>num1)
+            {
+                printf("result>结果到边界啦\n");
+                fprintf(write,"%s\n","结果到边界啦");
+                fclose(write);
+                return ERROR;
+            }    
         }
         else if(*p=='*')
         {
@@ -246,6 +267,13 @@ status calculate_hex(stack**a)//后缀计算函数
             s--;
             num1=k[s];
             k[s]=num1*num2;
+             if (k[s]/num2!=num1)
+            {
+                printf("result>结果到边界啦\n");
+                fprintf(write,"%s\n","结果到边界啦");
+                fclose(write);
+                return ERROR;
+            }
         }
         else if(*p=='/')
         {
@@ -268,6 +296,13 @@ status calculate_hex(stack**a)//后缀计算函数
             }
             else
             k[s]=num1/num2;
+            if (k[s]*num2!=num1)
+            {
+                printf("result>结果到边界啦\n");
+                fprintf(write,"%s\n","结果到边界啦");
+                fclose(write);
+                return ERROR;
+            }
         }
         p=strtok(NULL," ");
     }

@@ -11,7 +11,7 @@
 
 void dec2bin(int dec)
 {
-    if(dec > 1)
+    if(dec>1)
         dec2bin(dec/2);
     FILE*write=fopen("result.txt","a+");
     printf("%d", dec%2);
@@ -220,6 +220,13 @@ status calculate_two(stack**a)//后缀计算函数
     {
         if(isdigit(p[0]))
         {
+            if(strlen(p)>31)
+            {
+                printf("result>输入的数超过边界了\n");
+                fprintf(write,"%s\n","输入的数超过边界了");
+                fclose(write);
+                return ERROR;
+            }
             for(i=0;p[i]!='\0'&&i<31;i++)
             {
                 sum=2*sum+(p[i]-48);       //这里的48等价于'0'
@@ -250,6 +257,13 @@ status calculate_two(stack**a)//后缀计算函数
                 s--;
                 num1=k[s];
                 k[s]=num1+num2;
+            }
+            if (k[s]==-2147483648)
+            {
+                printf("result>结果到边界啦\n");
+                fprintf(write,"%s\n","结果到边界啦");
+                fclose(write);
+                return ERROR;
             }  
         }
         else if(*p=='-')
@@ -261,17 +275,20 @@ status calculate_two(stack**a)//后缀计算函数
                 fclose(write);
                 return ERROR;
             }
-            else if(s==0)
-            {
-                k[s]=-k[s];
-            }
             else
             {
                 num2=k[s];
                 s--;
                 num1=k[s];
                 k[s]=num1-num2;
-            }  
+            }
+            if(k[s]==-2147483648)  
+            {
+                printf("result>结果到边界啦\n");
+                fprintf(write,"%s\n","结果到边界啦");
+                fclose(write);
+                return ERROR;
+            }
         }
         else if(*p=='*')
         {
@@ -286,6 +303,13 @@ status calculate_two(stack**a)//后缀计算函数
             s--;
             num1=k[s];
             k[s]=num1*num2;
+            if (k[s]/num2!=num1)
+            {
+                printf("result>结果到边界啦\n");
+                fprintf(write,"%s\n","结果到边界啦");
+                fclose(write);
+                return ERROR;
+            }
         }
         else if(*p=='/')
         {
@@ -308,6 +332,13 @@ status calculate_two(stack**a)//后缀计算函数
             }
             else
             k[s]=num1/num2;
+            if (k[s]*num2!=num1)
+            {
+                printf("result>结果到边界啦\n");
+                fprintf(write,"%s\n","结果到边界啦");
+                fclose(write);
+                return ERROR;
+            }
         }
         else if(*p=='&')
         {
@@ -357,8 +388,19 @@ status calculate_two(stack**a)//后缀计算函数
         printf("%d\n",k[0]);
     #endif
     printf("result> ");
-    fclose(write);
-    dec2bin(k[0]);
+    if(k[0]<0)
+    {
+        printf("-");
+        fprintf(write,"-");
+        fclose(write);
+        k[0]=-k[0];
+        dec2bin(k[0]);
+    }
+    else
+    {
+        fclose(write);
+        dec2bin(k[0]);
+    }
     write=fopen("result.txt","a+");
     fprintf(write,"\n");
     fclose(write);

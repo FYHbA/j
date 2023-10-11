@@ -791,6 +791,13 @@ status calculate(stack**a)//后缀计算函数
         }
         p=strtok(NULL," ");
     }
+    if(k[0]==-2147483648)
+    {
+        printf("result>结果到边界啦\n");
+        fprintf(write,"%s\n","结果到边界啦");
+        fclose(write);
+        return ERROR;
+    }
     if(ceil(k[0]) == floor(k[0]))
     {
         int i=(int)k[0];
