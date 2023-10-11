@@ -6,7 +6,7 @@
 #include<ctype.h>
 #include"ku.h"
 #include<math.h>
-//#define CHECK
+#define CHECK
 status change(stackelem c[],stack**a,stack**b)//中缀转后缀表达式
 {
     FILE*write=fopen("result.txt","a+");
@@ -593,6 +593,7 @@ status calculate(stack**a)//后缀计算函数
     {
         if(isdigit(p[0])||isdigit(p[1]))
         {
+
             s++;
             k[s]=atof(p);
             #ifdef CHECK
@@ -791,7 +792,7 @@ status calculate(stack**a)//后缀计算函数
         }
         p=strtok(NULL," ");
     }
-    if(k[0]==-2147483648)
+    if(k[0]<=-2147483648||k[0]>=2147483648)
     {
         printf("result>结果到边界啦\n");
         fprintf(write,"%s\n","结果到边界啦");
